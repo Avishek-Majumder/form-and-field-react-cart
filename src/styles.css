@@ -1,0 +1,4 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f7f5ef; color: #263c32; font-family: Arial, sans-serif; }
+.setup { max-width: 960px; margin: 15vh auto; padding: 32px; }
+h1 { font: 64px Georgia, serif; }
