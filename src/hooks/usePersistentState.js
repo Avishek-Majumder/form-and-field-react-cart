@@ -11,7 +11,11 @@ export function usePersistentState(key, fallback, validate) {
     }
   });
   useEffect(() => {
-    try { window.localStorage.setItem(key, JSON.stringify(value)); } catch { /* Keep the current session usable. */ }
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      /* Keep the current session usable. */
+    }
   }, [key, value]);
   return [value, setValue];
 }

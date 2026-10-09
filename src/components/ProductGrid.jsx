@@ -2,13 +2,131 @@ import { Search, X, ArrowUpRight, Heart } from 'lucide-react';
 import { categories } from '../data/products';
 import ProductCard from './ProductCard';
 
-export default function ProductGrid({ products, category, setCategory, query, setQuery, sort, setSort, searchRef, savedOnly, setSavedOnly, saved, toggleSaved, onQuickView, onAdd, items = [] }) {
-  const reset = () => { setQuery(''); setCategory('All objects'); setSavedOnly(false); };
-  return <section className="collection section-wrap" id="collection" aria-labelledby="collection-title">
-    <div className="section-heading"><div><p className="eyebrow">GOOD DESIGN, EVERY DAY</p><h2 id="collection-title">Find your kind of <em>lovely.</em></h2></div><p>Considered pieces for the way you live.<br />Chosen to be loved, made to be kept.</p></div>
-    <div className="collection-toolbar"><div className="category-tabs" role="group" aria-label="Filter by category">{categories.map((item) => <button key={item} onClick={() => { setCategory(item); setSavedOnly(false); }} aria-pressed={category === item && !savedOnly} className={category === item && !savedOnly ? 'selected' : ''}>{item}</button>)}</div><label className="sort-control"><span>Sort by:</span><select aria-label="Sort products" value={sort} onChange={(event) => setSort(event.target.value)}><option value="featured">Featured</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A to Z</option></select></label></div>
-    <div className="catalog-meta"><p aria-live="polite">{savedOnly && <Heart size={13} />} {products.length} {savedOnly ? 'saved ' : ''}{products.length === 1 ? 'object' : 'objects'}{category !== 'All objects' ? ` in ${category.toLowerCase()}` : ', thoughtfully selected'}{savedOnly && <button className="text-link" onClick={reset}>View all</button>}</p><div className="search-field"><Search size={16} /><input ref={searchRef} type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find something lovely…" aria-label="Search products" />{query && <button aria-label="Clear search" className="search-clear" onClick={() => setQuery('')}><X size={14} /></button>}</div></div>
-    {products.length ? <div className="product-grid">{products.map((product) => <ProductCard key={product.id} product={product} saved={saved.includes(product.id)} onToggleSaved={toggleSaved} onQuickView={onQuickView} onAdd={onAdd} quantity={items.find((item) => item.id === product.id)?.quantity ?? 0} />)}</div> : <div className="catalog-empty"><Search size={32} strokeWidth={1} /><h3>{savedOnly ? 'A place for your favorites.' : 'Nothing here just yet.'}</h3><p>{savedOnly ? 'Tap the heart on an object to save it for another look.' : 'Try another search or explore the full collection.'}</p><button className="button button-dark" onClick={reset}>Explore all objects <ArrowUpRight size={17} /></button></div>}
-    <div className="collection-end"><span /> A few good things go a long way. <span /></div>
-  </section>;
+export default function ProductGrid({
+  products,
+  category,
+  setCategory,
+  query,
+  setQuery,
+  sort,
+  setSort,
+  searchRef,
+  savedOnly,
+  setSavedOnly,
+  saved,
+  toggleSaved,
+  onQuickView,
+  onAdd,
+  items = [],
+}) {
+  const reset = () => {
+    setQuery('');
+    setCategory('All objects');
+    setSavedOnly(false);
+  };
+  return (
+    <section className="collection section-wrap" id="collection" aria-labelledby="collection-title">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">GOOD DESIGN, EVERY DAY</p>
+          <h2 id="collection-title">
+            Find your kind of <em>lovely.</em>
+          </h2>
+        </div>
+        <p>
+          Considered pieces for the way you live. <br />
+          Chosen to be loved, made to be kept.
+        </p>
+      </div>
+      <div className="collection-toolbar">
+        <div className="category-tabs" role="group" aria-label="Filter by category">
+          {categories.map((item) => (
+            <button
+              key={item}
+              onClick={() => {
+                setCategory(item);
+                setSavedOnly(false);
+              }}
+              aria-pressed={category === item && !savedOnly}
+              className={category === item && !savedOnly ? 'selected' : ''}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <label className="sort-control">
+          <span>Sort by:</span>
+          <select
+            aria-label="Sort products"
+            value={sort}
+            onChange={(event) => setSort(event.target.value)}
+          >
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name">Name: A to Z</option>
+          </select>
+        </label>
+      </div>
+      <div className="catalog-meta">
+        <p aria-live="polite">
+          {savedOnly && <Heart size={13} />} {products.length} {savedOnly ? 'saved ' : ''}
+          {products.length === 1 ? 'object' : 'objects'}
+          {category !== 'All objects' ? ` in ${category.toLowerCase()}` : ', thoughtfully selected'}
+          {savedOnly && (
+            <button className="text-link" onClick={reset}>
+              View all
+            </button>
+          )}
+        </p>
+        <div className="search-field">
+          <Search size={16} />
+          <input
+            ref={searchRef}
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Find something lovely…"
+            aria-label="Search products"
+          />
+          {query && (
+            <button aria-label="Clear search" className="search-clear" onClick={() => setQuery('')}>
+              <X size={14} />
+            </button>
+          )}
+        </div>
+      </div>
+      {products.length ? (
+        <div className="product-grid">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              saved={saved.includes(product.id)}
+              onToggleSaved={toggleSaved}
+              onQuickView={onQuickView}
+              onAdd={onAdd}
+              quantity={items.find((item) => item.id === product.id)?.quantity ?? 0}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="catalog-empty">
+          <Search size={32} strokeWidth={1} />
+          <h3>{savedOnly ? 'A place for your favorites.' : 'Nothing here just yet.'}</h3>
+          <p>
+            {savedOnly
+              ? 'Tap the heart on an object to save it for another look.'
+              : 'Try another search or explore the full collection.'}
+          </p>
+          <button className="button button-dark" onClick={reset}>
+            Explore all objects <ArrowUpRight size={17} />
+          </button>
+        </div>
+      )}
+      <div className="collection-end">
+        <span /> A few good things go a long way. <span />
+      </div>
+    </section>
+  );
 }
